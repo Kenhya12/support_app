@@ -16,3 +16,31 @@ Requisitos:
     Si una solicitud es editada se deberá saber la fecha y la hora de la edición
     El departamento técnico debe poder eliminar una solicitud, siempre y cuando esta haya sido marcada previamente como atendida
     Cobertura de tests unitarios del 70%
+
+    Tecnologías a utilizar:
+
+    Java 21 SE
+    Spring & Spring Boot
+    Spring Data JPA
+    Base de datos: MySQL o H2
+
+Entregables:
+
+    Repositorio de GitHub
+    Enlace pública a la presentación realizada
+    Captura de pantalla del diagrama UML o enlace pública del archivo de diagrams.net
+    Captura de pantalla de la sección "Testing" de visual studio code donde se aprecia el coverage de los test
+
+Criterios de Evaluación:
+
+    Gestión del proyecto (JIRA) (20p)
+    Aplicación documentada con Postman, Swagger y sus diagramas (Diagrama de base de datos, Diagramas de clases) (20p)
+    La API deberá cumplir con los requisitos (30p)
+    Modelos, Servicios y Controladores testeados (30p)
+
+Enlaces de interés:
+
+    Diagrama de clases
+    Diagramas de bases de datos (ER de Chen y de patas de gallo - ver video)
+    Test a Spring Boot REST Controller
+    Spring Boot 3 with JUnit 5

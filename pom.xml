@@ -14,8 +14,7 @@
 	<name>support_app</name>
 	<description>API to log employee support requests.</description>
 	<url/>
-	<licenses>
-		<license/>
+	<licenses>		<license/>
 	</licenses>
 	<developers>
 		<developer/>
