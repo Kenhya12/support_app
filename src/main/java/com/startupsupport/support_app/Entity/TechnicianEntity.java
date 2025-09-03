@@ -1,10 +1,10 @@
-package com.startupsupport.support_app.model;
+package com.startupsupport.support_app.Entity;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "technician")
-public class Technician {
+public class TechnicianEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,8 +14,8 @@ public class Technician {
     private String email;
     private String specialty;
 
-    public Technician() {}
-    public Technician(String name, String email, String specialty) {
+    public TechnicianEntity() {}
+    public TechnicianEntity(String name, String email, String specialty) {
         this.name = name;
         this.email = email;
         this.specialty = specialty;

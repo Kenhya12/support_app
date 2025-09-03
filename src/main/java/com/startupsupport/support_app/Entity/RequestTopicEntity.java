@@ -1,10 +1,10 @@
-package com.startupsupport.support_app.model;
+package com.startupsupport.support_app.Entity;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "request_topic")
-public class RequestTopic {
+public class RequestTopicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,8 +12,8 @@ public class RequestTopic {
 
     private String topicName; // Ejemplo: "Hardware", "Software"
 
-    public RequestTopic() {}
-    public RequestTopic(String topicName) {
+    public RequestTopicEntity() {}
+    public RequestTopicEntity(String topicName) {
         this.topicName = topicName;
     }
 

@@ -1,11 +1,11 @@
-package com.startupsupport.support_app.model;
+package com.startupsupport.support_app.Entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "request")
-public class Request {
+public class RequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,19 +13,19 @@ public class Request {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
-    private Employee employee;
+    private EmployeeEntity employee;
 
     @ManyToOne
     @JoinColumn(name = "technician_id")
-    private Technician technician;
+    private TechnicianEntity technician;
 
     @ManyToOne
     @JoinColumn(name = "status_id")
-    private RequestStatus status;
+    private RequestStatusEntity status;
 
     @ManyToOne
     @JoinColumn(name = "topic_id")
-    private RequestTopic topic;
+    private RequestTopicEntity topic;
 
     private String problemDescription; // Ejemplo: "No puedo acceder al correo"
     private LocalDateTime createdAt;
@@ -33,7 +33,7 @@ public class Request {
     private LocalDateTime resolvedAt;
     private LocalDateTime lastEditedAt;
 
-    public Request() {}
+    public RequestEntity() {}
 
     // Constructor con campos esenciales, getters y setters
 }

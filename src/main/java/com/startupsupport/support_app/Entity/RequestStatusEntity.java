@@ -1,10 +1,10 @@
-package com.startupsupport.support_app.model;
+package com.startupsupport.support_app.Entity;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "request_status")
-public class RequestStatus {
+public class RequestStatusEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,8 +12,8 @@ public class RequestStatus {
 
     private String statusName; // Ejemplo: "Pendiente", "Atendida"
 
-    public RequestStatus() {}
-    public RequestStatus(String statusName) {
+    public RequestStatusEntity() {}
+    public RequestStatusEntity(String statusName) {
         this.statusName = statusName;
     }
 
