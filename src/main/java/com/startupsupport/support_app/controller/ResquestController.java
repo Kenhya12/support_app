@@ -1,10 +1,18 @@
 package com.startupsupport.support_app.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
-import com.startupsupport.support_app.model.Request;
 import com.startupsupport.support_app.repository.RequestRepository;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 
 @RestController
 @RequestMapping("/api/requests") // Base path for all request-related endpoints

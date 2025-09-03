@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface RequestStatusRepository extends JpaRepository<RequestStatusEntity, Long> {
-
+    
+    // Buscar un estado por su nombre (ej: "Pending")
+    RequestStatusEntity findByStatus(String status);
 } 

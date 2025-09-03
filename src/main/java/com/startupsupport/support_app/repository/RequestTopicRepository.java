@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface RequestTopicRepository extends JpaRepository<RequestTopicEntity, Long> {
     
+    // Buscar un tema por su nombre (ej: "Hardware")
+    RequestTopicEntity findByTopic(String topic);
 }

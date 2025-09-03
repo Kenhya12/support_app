@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> {
     
+    // Buscar empleado por email
+    EmployeeEntity findByEmail(String email);
 }

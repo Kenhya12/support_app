@@ -3,6 +3,7 @@ package com.startupsupport.support_app.Entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "request")
 public class RequestEntity {
@@ -11,8 +12,17 @@ public class RequestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String description;
+
+    private LocalDateTime createdAt;
+    /* private LocalDateTime assignedAt;
+    private LocalDateTime resolvedAt;
+    private LocalDateTime lastEditedAt;*/
+
+    // Relaciones con otras entidades
+
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", nullable = false)
     private EmployeeEntity employee;
 
     @ManyToOne
@@ -20,20 +30,53 @@ public class RequestEntity {
     private TechnicianEntity technician;
 
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private RequestStatusEntity status;
 
     @ManyToOne
-    @JoinColumn(name = "topic_id")
+    @JoinColumn(name = "topic_id", nullable = false)
     private RequestTopicEntity topic;
 
-    private String problemDescription; // Ejemplo: "No puedo acceder al correo"
-    private LocalDateTime createdAt;
-    private LocalDateTime assignedAt;
-    private LocalDateTime resolvedAt;
-    private LocalDateTime lastEditedAt;
+    public RequestEntity() {
+        this.createdAt = LocalDateTime.now();
+}  
 
-    public RequestEntity() {}
+    public RequestEntity(String description, LocalDateTime createdAt, EmployeeEntity employee, RequestStatusEntity status, RequestTopicEntity topic) {
+        this.description = description;
+        this.createdAt = createdAt;
+        this.employee = employee;
+        this.status = status;
+        this.topic = topic;
+    }
+
 
     // Constructor con campos esenciales, getters y setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public RequestTopicEntity getTopic() {
+        return topic;
+    }
+
+    public void setTopic(RequestTopicEntity topic) {
+        this.topic = topic;
+    }
 }
