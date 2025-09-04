@@ -1,19 +1,13 @@
 package com.startupsupport.support_app.service;
 
-import com.startupsupport.support_app.Entity.EmployeeEntity;
+import com.startupsupport.support_app.dto.EmployeeDTO;
 import java.util.List;
-import java.util.Optional;
 
 public interface EmployeeService {
-    EmployeeEntity createEmployee(EmployeeEntity employee);
-
-    List<EmployeeEntity> getAllEmployees();
-
-    Optional<EmployeeEntity> getEmployeeById(Long id);
-
-    EmployeeEntity updateEmployee(Long id, EmployeeEntity employee);
-
+    EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
+    List<EmployeeDTO> getAllEmployees();
+    EmployeeDTO getEmployeeById(Long id);
+    EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO);
     void deleteEmployee(Long id);
-
-    EmployeeEntity getEmployeeByEmail(String email);
+    EmployeeDTO getEmployeeByEmail(String email);
 }

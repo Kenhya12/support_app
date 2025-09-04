@@ -17,7 +17,7 @@ public class RequestTopicEntity {
     }
 
     public RequestTopicEntity(String topicName) {
-        this.topicName = topicName;
+        this.topic = topicName;
     }
 
     // Getters y Setters

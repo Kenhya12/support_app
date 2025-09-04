@@ -1,17 +1,18 @@
 package com.startupsupport.support_app.service;
 
+
 import com.startupsupport.support_app.Entity.RequestEntity;
-import com.startupsupport.support_app.Entity.EmployeeEntity;
 import com.startupsupport.support_app.Entity.RequestStatusEntity;
-import com.startupsupport.support_app.Repository.RequestRepository;
-import com.startupsupport.support_app.Repository.RequestStatusRepository;
+import com.startupsupport.support_app.repository.RequestRepository;
+import com.startupsupport.support_app.repository.RequestStatusRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RequestService {
+
     private final RequestRepository requestRepository;
     private final RequestStatusRepository requestStatusRepository;
 
@@ -23,22 +24,22 @@ public class RequestService {
     // Crear una nueva solicitud
     public RequestEntity createRequest(RequestEntity request) {
         // Establecer el estado inicial de la solicitud
-        RequestStatusEntity pendingStatus = requestStatusRepository.findByName("PENDING")
-                .orElseThrow(() -> new RuntimeException("Initial status not found"));
+        RequestStatusEntity pendingStatus = requestStatusRepository.findByStatus("Pending");
         request.setStatus(pendingStatus);
+        request.setCreatedAt(LocalDateTime.now());
         return requestRepository.save(request);
+    }
 
-        // Obtener todas las solicitudes
+    // Obtener todas las solicitudes
     public List<RequestEntity> getAllRequests() {
         return requestRepository.findAllByOrderByCreatedAtAsc();
     }
-}
 
     // Actualizar solicitud
     public RequestEntity updateRequest(Long id, RequestEntity updatedRequest) {
         return requestRepository.findById(id).map(request -> {
             request.setDescription(updatedRequest.getDescription());
-            request.setUpdatedAt(updatedRequest.getUpdatedAt());
+            request.setUpdatedAt(LocalDateTime.now());
             request.setTechnician(updatedRequest.getTechnician());
             request.setStatus(updatedRequest.getStatus());
             request.setTopic(updatedRequest.getTopic());
@@ -47,9 +48,9 @@ public class RequestService {
     }
 
     // Marcar como resuelta
-    public RequestEntity markAsResolved(Long id, String technicianName) {
+    public RequestEntity markAsResolved(Long id) {
         return requestRepository.findById(id).map(request -> {
-            request.setResolvedAt(java.time.LocalDateTime.now());
+            request.setResolvedAt(LocalDateTime.now());
             request.setStatus(requestStatusRepository.findByStatus("Resolved"));
             return requestRepository.save(request);
         }).orElseThrow(() -> new RuntimeException("Request not found with id " + id));
@@ -63,7 +64,6 @@ public class RequestService {
             } else {
                 throw new RuntimeException("Cannot delete a request that is not resolved");
             }
-
         });
     }
 }

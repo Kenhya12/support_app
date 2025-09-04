@@ -26,16 +26,16 @@ public class RequestEntity {
     private EmployeeEntity employee;
 
     @ManyToOne
-    @JoinColumn(name = "technician_id")
-    private TechnicianEntity technician;
-
-    @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private RequestStatusEntity status;
 
     @ManyToOne
     @JoinColumn(name = "topic_id", nullable = false)
     private RequestTopicEntity topic;
+
+    @ManyToOne
+    @JoinColumn(name = "technician_id")
+    private TechnicianEntity technician;
 
     public RequestEntity() {
         this.createdAt = LocalDateTime.now();
@@ -79,4 +79,32 @@ public class RequestEntity {
     public void setTopic(RequestTopicEntity topic) {
         this.topic = topic;
     }
+
+	public void setStatus(RequestStatusEntity pendingStatus) {
+		this.status = pendingStatus;
+	}
+
+	public void setCreatedAt(LocalDateTime now) {
+		this.createdAt = now;
+	}
+
+	public void setUpdatedAt(LocalDateTime now) {
+        this.createdAt = now;
+	}
+
+	public void setTechnician(Object technician2) {
+        this.technician = (TechnicianEntity) technician2;
+	}
+
+	public RequestStatusEntity getStatus() {
+        return status;
+	}
+
+	public void setResolvedAt(LocalDateTime now) {
+        this.createdAt = now;
+	}
+
+	public Object getTechnician() {
+        return technician;
+	}
 }
