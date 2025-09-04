@@ -4,14 +4,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.startupsupport.support_app.repository.RequestTopicRepository;
+import com.startupsupport.support_app.Entity.RequestTopicEntity;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/request-topics")
@@ -25,7 +26,7 @@ public class RequestTopicController {
 
     // GET Buscar un tópico por id
     @RequestMapping("/{id}")
-    public ResponseEntity<RequestTopic> getRequestTopicById(@org.springframework.web.bind.annotation.PathVariable Long id) {
+        public ResponseEntity<RequestTopicEntity> getRequestTopicById(@PathVariable Long id) {
         return requestTopicRepository.findById(id)
                 .map(topic -> ResponseEntity.ok().body(topic))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -33,8 +34,8 @@ public class RequestTopicController {
 
     // POST Crear un nuevo tópico
     @PostMapping
-    public ResponseEntity<RequestTopic> createRequestTopic(@RequestTopic requestTopic) {
-        RequestTopic savedTopic = requestTopicRepository.save(requestTopic);
+        public ResponseEntity<RequestTopicEntity> createRequestTopic(@RequestBody RequestTopicEntity requestTopic) {
+        RequestTopicEntity savedTopic = requestTopicRepository.save(requestTopic);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTopic);
     }   
     // DELETE Eliminar un tópico por id

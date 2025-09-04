@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.startupsupport.support_app.Entity.TechnicianEntity;
 import com.startupsupport.support_app.repository.TechnicianRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -28,7 +28,7 @@ public class TechnicianController {
 
     // GET Buscar un técnico por id
     @RequestMapping("/{id}")
-    public ResponseEntity<Technician> getTechnicanById(@PathVariable Long id) {
+    public ResponseEntity<TechnicianEntity> getTechnicanById(@PathVariable Long id) {
         return technicianRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -36,20 +36,20 @@ public class TechnicianController {
 
     // POST Crear un nuevo técnico
     @PostMapping
-    public ResponseEntity<Technician> createTechnician(@RequestBody Technician technician) {
-        Technician savedTech = technicianRepository.save(technician);
+    public ResponseEntity<TechnicianEntity> createTechnician(@RequestBody TechnicianEntity technician) {
+        TechnicianEntity savedTech = technicianRepository.save(technician);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTech);
     }   
 
     // PUT Actualizar un técnico por id
     @PutMapping("/{id}")
-    public ResponseEntity<Technician> updateTechnician(@PathVariable Long id, @RequestBody Technician technicianDetails) {
+        public ResponseEntity<TechnicianEntity> updateTechnician(@PathVariable Long id, @RequestBody TechnicianEntity technicianDetails) {
         return technicianRepository.findById(id)
                 .map(technician -> {
                     technician.setName(technicianDetails.getName());
                     technician.setEmail(technicianDetails.getEmail());
                     technician.setSpecialty(technicianDetails.getSpecialty());
-                    Technician updatedTech = technicianRepository.save(technician);
+                    TechnicianEntity updatedTech = technicianRepository.save(technician);
                     return ResponseEntity.ok().body(updatedTech);
                 }).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
