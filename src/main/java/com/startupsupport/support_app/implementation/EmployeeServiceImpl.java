@@ -1,14 +1,15 @@
 package com.startupsupport.support_app.implementation;
 
 import com.startupsupport.support_app.Entity.EmployeeEntity;
-import com.startupsupport.support_app.repository.EmployeeRepository;
-import com.startupsupport.support_app.service.EmployeeService;
 import com.startupsupport.support_app.dto.EmployeeDTO;
+import com.startupsupport.support_app.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
-import com.startupsupport.support_app.mapper.EmployeeMapper;
+import com.startupsupport.support_app.service.EmployeeService;
+
 
 import java.util.List;
-
+import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -20,35 +21,40 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDTO createEmployee(EmployeeDTO dto) {
-        EmployeeEntity entity = EmployeeMapper.toEntity(dto);
-        EmployeeEntity saved = employeeRepository.save(entity);
-        return EmployeeMapper.toDTO(saved);
+public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
+    EmployeeEntity employee = new EmployeeEntity(
+        employeeDTO.getName(),
+        employeeDTO.getEmail(),
+        employeeDTO.getDepartment()
+    );
+    EmployeeEntity saved = employeeRepository.save(employee);
+    return new EmployeeDTO(saved.getId(), saved.getName(), saved.getEmail(), saved.getDepartment());
+}
+
+    @Override
+    public EmployeeDTO getEmployeeById(Long id) {
+        Optional<EmployeeEntity> employee = employeeRepository.findById(id);
+    return employee.map(emp -> new EmployeeDTO(emp.getId(), emp.getName(), emp.getEmail(), emp.getDepartment()))
+            .orElse(null);
     }
 
     @Override
     public List<EmployeeDTO> getAllEmployees() {
-        return employeeRepository.findAll()
-                .stream()
-                .map(EmployeeMapper::toDTO)
-                .toList();
+        return employeeRepository.findAll().stream()
+                .map(emp -> new EmployeeDTO(emp.getId(), emp.getName(), emp.getEmail(), emp.getDepartment()))
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public EmployeeDTO getEmployeeById(Long id) {
-        return employeeRepository.findById(id)
-                .map(EmployeeMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-    }
 
     @Override
-    public EmployeeDTO updateEmployee(Long id, EmployeeDTO dto) {
-        return employeeRepository.findById(id).map(entity -> {
-            entity.setName(dto.getName());
-            entity.setEmail(dto.getEmail());
-            entity.setDepartment(dto.getDepartment());
-            return EmployeeMapper.toDTO(employeeRepository.save(entity));
-        }).orElseThrow(() -> new RuntimeException("Employee not found"));
+    public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO) {
+        return employeeRepository.findById(id).map(emp -> {
+            emp.setName(employeeDTO.getName());
+            emp.setEmail(employeeDTO.getEmail());
+            emp.setDepartment(employeeDTO.getDepartment());
+            EmployeeEntity updated = employeeRepository.save(emp);
+            return new EmployeeDTO(updated.getId(), updated.getName(), updated.getEmail(), updated.getDepartment());
+        }).orElse(null);
     }
 
     @Override
@@ -58,7 +64,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO getEmployeeByEmail(String email) {
-        EmployeeEntity entity = employeeRepository.findByEmail(email);
-        return entity != null ? EmployeeMapper.toDTO(entity) : null;
+        EmployeeEntity employee = employeeRepository.findByEmail(email);
+        if (employee != null) {
+            return new EmployeeDTO(employee.getId(), employee.getName(), employee.getEmail(), employee.getDepartment());
+        } else {
+            return null;
+        }
     }
 }

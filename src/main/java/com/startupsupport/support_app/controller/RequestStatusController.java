@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import com.startupsupport.support_app.repository.RequestStatusRepository;
 import com.startupsupport.support_app.Entity.RequestStatusEntity;
@@ -36,7 +35,7 @@ public class RequestStatusController {
 
     // POST crear un nuevo estado de solicitud
     @PostMapping
-        public ResponseEntity<RequestStatusEntity> createRequestStatus(@Valid @RequestBody RequestStatusEntity requestStatus) {
+                public ResponseEntity<RequestStatusEntity> createRequestStatus(@RequestBody RequestStatusEntity requestStatus) {
         RequestStatusEntity savedRequestStatus = requestStatusRepository.save(requestStatus);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedRequestStatus);
     }

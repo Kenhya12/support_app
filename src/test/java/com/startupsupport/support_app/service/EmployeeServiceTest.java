@@ -2,57 +2,59 @@ package com.startupsupport.support_app.service;
 
 import com.startupsupport.support_app.Entity.EmployeeEntity;
 import com.startupsupport.support_app.dto.EmployeeDTO;
-import com.startupsupport.support_app.mapper.EmployeeMapper;
 import com.startupsupport.support_app.repository.EmployeeRepository;
+
 import com.startupsupport.support_app.implementation.EmployeeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.List;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-
-@ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTest {
 
     @Mock
     private EmployeeRepository employeeRepository;
 
     @InjectMocks
-    private EmployeeServiceImpl employeeService;
+    private EmployeeServiceImpl employeeService; // tu implementación del servicio
 
-    private EmployeeEntity employeeEntity;
-    private EmployeeDTO employeeDTO;
+    
+    private EmployeeDTO employee;
 
     @BeforeEach
     void setUp() {
-        employeeEntity = new EmployeeEntity("Paula", "paula@email.com", "IT");
-        employeeEntity.setId(1L);
-        employeeDTO = EmployeeMapper.toDTO(employeeEntity);
+        MockitoAnnotations.openMocks(this);
+        employee = new EmployeeDTO("Paula", "paula@example.com", "IT");
     }
 
     @Test
     void testCreateEmployee() {
-        when(employeeRepository.save(any(EmployeeEntity.class))).thenReturn(employeeEntity);
+        when(employeeRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        EmployeeDTO result = employeeService.createEmployee(employeeDTO);
+        EmployeeDTO saved = employeeService.createEmployee(employee);
 
-        assertEquals(employeeDTO.getName(), result.getName());
-        verify(employeeRepository, times(1)).save(any(EmployeeEntity.class));
+        assertNotNull(saved);
+        assertEquals("Paula", saved.getName());
+        verify(employeeRepository, times(1)).save(any());
     }
 
     @Test
-    void testGetAllEmployees() {
-        when(employeeRepository.findAll()).thenReturn(List.of(employeeEntity));
+    void testGetEmployeeById() {
+        EmployeeEntity mockEntity = new EmployeeEntity("Paula", "paula@example.com", "IT");
+        mockEntity.setId(1L);
+        when(employeeRepository.findById(1L)).thenReturn(Optional.of(mockEntity));
 
-        List<EmployeeDTO> employees = employeeService.getAllEmployees();
+        EmployeeDTO found = employeeService.getEmployeeById(1L);
 
-        assertEquals(1, employees.size());
-        assertEquals("Paula", employees.get(0).getName());
+        assertNotNull(found);
+        assertEquals("Paula", found.getName());
+        verify(employeeRepository, times(1)).findById(1L);
     }
 }
